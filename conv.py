@@ -3,9 +3,11 @@
 
 from telegram.ext import Updater, CommandHandler, Job, CallbackQueryHandler, MessageHandler, Filters
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from conf import key
 import logging
 import requests
-import json
+import json 
+
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -114,7 +116,7 @@ def echo(bot, update):
 
 
 def main():
-    updater = Updater("768398023:AAEBxUq0Zves5NTNtW70GfxC_aemwqTGCsU")
+    updater = Updater(key)
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
