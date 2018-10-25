@@ -32,29 +32,84 @@ def converto(bot, update, num, p, a):
     if(p=='2'):
         try:
             newdec=int(num,2)
-            #newoct=oct(num)
-            newhex=hex(num,2)
-            if(a==2): 
+            newoct=oct(newdec)
+            newhex=hex(newdec)
+            if(a=='2'): 
                 update.message.reply_text("Risultato: " + num)
-            #if(a=='8'): 
-                #update.message.reply_text("Risultato: " + newoct)
+            if(a=='8'): 
+                update.message.reply_text("Risultato: " + str(newoct)[2:])
             if(a=='10'): 
-                update.message.reply_text("Risultato: " + newdec)
-            if(a==16): 
-                update.message.reply_text("Risultato: " + newhex)
+                update.message.reply_text("Risultato: " + str(newdec))
+            if(a=='16'): 
+                update.message.reply_text("Risultato: " + str(newhex)[2:])
         except ValueError as verr:
-            update.message.reply_text('Controlla di aver inserito un numero binario')
+            update.message.reply_text('Controlla di aver inserito un numero binario (Cifre in [0,1])')
+    if(p=='8'):
+        try:
+            newdec=int(num,8)
+            newbin=bin(newdec)
+            newhex=hex(newdec)
+            if(a=='2'): 
+                update.message.reply_text("Risultato: " + str(newbin)[2:])
+            if(a=='8'): 
+                update.message.reply_text("Risultato: " + num)
+            if(a=='10'): 
+                update.message.reply_text("Risultato: " + str(newdec))
+            if(a=='16'): 
+                update.message.reply_text("Risultato: " + str(newhex)[2:])
+        except ValueError as verr:
+            update.message.reply_text('Controlla di aver inserito un numero ottale (Cifre in [1,7])')
+    if(p=='10'):
+        try:
+            newoct=oct(int(num))
+            newbin=bin(int(num))
+            newhex=hex(int(num))
+            if(a=='2'): 
+                update.message.reply_text("Risultato: " + str(newbin)[2:])
+            if(a=='8'): 
+                update.message.reply_text("Risultato: " + str(newoct)[2:])
+            if(a=='10'): 
+                update.message.reply_text("Risultato: " + num)
+            if(a=='16'): 
+                update.message.reply_text("Risultato: " + str(newhex)[2:])
+        except ValueError as verr:
+            update.message.reply_text('Controlla di aver inserito un numero decimale (Cifre in [1,9])')
+    if(p=='16'):
+        try:
+            newdec=int(num,16)
+            newoct=oct(newdec)
+            newbin=bin(newdec)
+            if(a=='2'): 
+                update.message.reply_text("Risultato: " + str(newbin)[2:])
+            if(a=='8'): 
+                update.message.reply_text("Risultato: " + str(newoct)[2:])
+            if(a=='10'): 
+                update.message.reply_text("Risultato: " + str(newdec))
+            if(a=='16'): 
+                update.message.reply_text("Risultato: " + num)
+        except ValueError as verr:
+            update.message.reply_text('Controlla di aver inserito un numero decimale ({[1,9],[a,f]})')
+
         
 
 
 def echo(bot, update):
     splitted = update.message.text.split()
-    print(len(splitted))
+    basi = ['2','8','10','16']
     if(len(splitted)==3):
         pa = splitted[0]
         num = splitted[1]
         de = splitted[2]
-        converto(bot, update, num,pa,de)
+        if pa in basi:
+            if de in basi:
+                converto(bot, update, num,pa,de)
+            else:
+                update.message.reply_text('Inserisci una base di destinazione valida tra 2,8,10,16')
+        else:
+            update.message.reply_text('Inserisci una base di partenza valida tra 2,8,10,16')
+    else:
+        update.message.reply_text('Inserisci correttamente i valori necessari \n [base_di_partenza numero base_destinazione] ')
+
 
 
 
