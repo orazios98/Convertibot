@@ -18,10 +18,10 @@ logger = logging.getLogger(__name__)
 # Define a few command handlers. These usually take the two arguments bot and
 # update. Error handlers also receive the raised TelegramError object in error.
 def start(bot, update):
-    update.message.reply_text('Ciao! Mi occupo di convertire numeri tra basi diverse \n Per convertire un numero da una base all\'altra basta semplicemente inviarmi un messaggio contenente 3 cifre separate da uno spazio che in ordine rappresentano: la base di partenza, il numero da convertire, la base di destinazione. \n Esempio: per convertire 101 dalla base 2 alla base 10 invia "2 101 10"')
+    update.message.reply_text('Ciao! Mi occupo di convertire numeri tra basi diverse \n Per convertire un numero da una base all\'altra basta semplicemente inviarmi un messaggio contenente 3 cifre separate da uno spazio che in ordine rappresentano: il numero da convertire, la base di partenza,  la base di destinazione. \n Esempio: per convertire 101 dalla base 2 alla base 10 invia "101 2 10"')
 
 def help(bot, update):
-    update.message.reply_text('Per convertire un numero da una base all\'altra basta semplicemente inviarmi un messaggio contenente 3 cifre separate da uno spazio che in ordine rappresentano: la base di partenza, il numero da convertire, la base di destinazione. \n Esempio: per convertire 101 dalla base 2 alla base 10 invia "2 101 10"')
+    update.message.reply_text('Per convertire un numero da una base all\'altra basta semplicemente inviarmi un messaggio contenente 3 cifre separate da uno spazio che in ordine rappresentano: il numero da convertire, la base di partenza,  la base di destinazione. \n Esempio: per convertire 101 dalla base 2 alla base 10 invia "101 2 10"')
 
 
 
@@ -97,12 +97,12 @@ def converto(bot, update, num, p, a):
         
 
 
-def echo(bot, update):
+def mess_ricevuto(bot, update):
     splitted = update.message.text.split()
     basi = ['2','8','10','16']
     if(len(splitted)==3):
-        pa = splitted[0]
-        num = splitted[1]
+        pa = splitted[1]
+        num = splitted[0]
         de = splitted[2]
         if pa in basi:
             if de in basi:
@@ -127,7 +127,7 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
-    dp.add_handler(MessageHandler(Filters.text, echo))
+    dp.add_handler(MessageHandler(Filters.text, mess_ricevuto))
 
     # log all errors
     dp.add_error_handler(error)
