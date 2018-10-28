@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from telegram.ext import Updater, CommandHandler, Job, CallbackQueryHandler, MessageHandler, Filters
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from conf import key
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 import logging
 import requests
 import json 
@@ -19,8 +18,11 @@ logger = logging.getLogger(__name__)
 # Define a few command handlers. These usually take the two arguments bot and
 # update. Error handlers also receive the raised TelegramError object in error.
 def start(bot, update):
-    print("sono partito")
-    update.message.reply_text('Ciao! Mi occupo di convertire numeri tra basi diverse')
+    update.message.reply_text('Ciao! Mi occupo di convertire numeri tra basi diverse \n Per convertire un numero da una base all\'altra basta semplicemente inviarmi un messaggio contenente 3 cifre separate da uno spazio che in ordine rappresentano: la base di partenza, il numero da convertire, la base di destinazione. \n Esempio: per convertire 101 dalla base 2 alla base 10 invia "2 101 10"')
+
+def help(bot, update):
+    update.message.reply_text('Per convertire un numero da una base all\'altra basta semplicemente inviarmi un messaggio contenente 3 cifre separate da uno spazio che in ordine rappresentano: la base di partenza, il numero da convertire, la base di destinazione. \n Esempio: per convertire 101 dalla base 2 alla base 10 invia "2 101 10"')
+
 
 
 def error(bot, update, error):
@@ -37,13 +39,13 @@ def converto(bot, update, num, p, a):
             newoct=oct(newdec)
             newhex=hex(newdec)
             if(a=='2'): 
-                update.message.reply_text("Risultato: " + num)
+                update.message.reply_text("Risultato: ` " + num + " `", parse_mode=ParseMode.MARKDOWN)
             if(a=='8'): 
-                update.message.reply_text("Risultato: " + str(newoct)[2:])
+                update.message.reply_text("Risultato: ` " + str(newoct)[2:]+ " `", parse_mode=ParseMode.MARKDOWN)
             if(a=='10'): 
-                update.message.reply_text("Risultato: " + str(newdec))
+                update.message.reply_text("Risultato: ` " + str(newdec)+ " `", parse_mode=ParseMode.MARKDOWN)
             if(a=='16'): 
-                update.message.reply_text("Risultato: " + str(newhex)[2:])
+                update.message.reply_text("Risultato: ` " + str(newhex)[2:] + " `", parse_mode=ParseMode.MARKDOWN)
         except ValueError as verr:
             update.message.reply_text('Controlla di aver inserito un numero binario (Cifre in [0,1])')
     if(p=='8'):
@@ -52,13 +54,13 @@ def converto(bot, update, num, p, a):
             newbin=bin(newdec)
             newhex=hex(newdec)
             if(a=='2'): 
-                update.message.reply_text("Risultato: " + str(newbin)[2:])
+                update.message.reply_text("Risultato: ` " + str(newbin)[2:] + " `", parse_mode=ParseMode.MARKDOWN)
             if(a=='8'): 
-                update.message.reply_text("Risultato: " + num)
+                update.message.reply_text("Risultato: ` " + num + " `", parse_mode=ParseMode.MARKDOWN)
             if(a=='10'): 
-                update.message.reply_text("Risultato: " + str(newdec))
+                update.message.reply_text("Risultato: ` " + str(newdec) + " `", parse_mode=ParseMode.MARKDOWN)
             if(a=='16'): 
-                update.message.reply_text("Risultato: " + str(newhex)[2:])
+                update.message.reply_text("Risultato: ` " + str(newhex)[2:] + " `", parse_mode=ParseMode.MARKDOWN)
         except ValueError as verr:
             update.message.reply_text('Controlla di aver inserito un numero ottale (Cifre in [1,7])')
     if(p=='10'):
@@ -67,13 +69,13 @@ def converto(bot, update, num, p, a):
             newbin=bin(int(num))
             newhex=hex(int(num))
             if(a=='2'): 
-                update.message.reply_text("Risultato: " + str(newbin)[2:])
+                update.message.reply_text("Risultato: ` " + str(newbin)[2:] + " `", parse_mode=ParseMode.MARKDOWN)
             if(a=='8'): 
-                update.message.reply_text("Risultato: " + str(newoct)[2:])
+                update.message.reply_text("Risultato: ` " + str(newoct)[2:] + " `", parse_mode=ParseMode.MARKDOWN)
             if(a=='10'): 
-                update.message.reply_text("Risultato: " + num)
+                update.message.reply_text("Risultato: ` " + num + " `", parse_mode=ParseMode.MARKDOWN)
             if(a=='16'): 
-                update.message.reply_text("Risultato: " + str(newhex)[2:])
+                update.message.reply_text("Risultato: ` " + str(newhex)[2:] + " `", parse_mode=ParseMode.MARKDOWN)
         except ValueError as verr:
             update.message.reply_text('Controlla di aver inserito un numero decimale (Cifre in [1,9])')
     if(p=='16'):
@@ -82,15 +84,15 @@ def converto(bot, update, num, p, a):
             newoct=oct(newdec)
             newbin=bin(newdec)
             if(a=='2'): 
-                update.message.reply_text("Risultato: " + str(newbin)[2:])
+                update.message.reply_text("Risultato: ` " + str(newbin)[2:] + " `", parse_mode=ParseMode.MARKDOWN)
             if(a=='8'): 
-                update.message.reply_text("Risultato: " + str(newoct)[2:])
+                update.message.reply_text("Risultato: ` " + str(newoct)[2:] + " `", parse_mode=ParseMode.MARKDOWN)
             if(a=='10'): 
-                update.message.reply_text("Risultato: " + str(newdec))
+                update.message.reply_text("Risultato: ` " + str(newdec) + " `", parse_mode=ParseMode.MARKDOWN)
             if(a=='16'): 
-                update.message.reply_text("Risultato: " + num)
+                update.message.reply_text("Risultato: ` " + num + " `", parse_mode=ParseMode.MARKDOWN)
         except ValueError as verr:
-            update.message.reply_text('Controlla di aver inserito un numero decimale ({[1,9],[a,f]})')
+            update.message.reply_text('Controlla di aver inserito un numero esadecimale ({[1,9],[a,f]})')
 
         
 
@@ -116,15 +118,15 @@ def echo(bot, update):
 
 
 def main():
-    updater = Updater(key)
+    updater = Updater("key")
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
-
+    logger.warning("sono partito")
 
 
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("help", start))
+    dp.add_handler(CommandHandler("help", help))
     dp.add_handler(MessageHandler(Filters.text, echo))
 
     # log all errors
